@@ -30,6 +30,62 @@ public class Game {
         this.players = players;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public List<Board> getBoardStates() {
+        return boardStates;
+    }
+
+    public void setBoardStates(List<Board> boardStates) {
+        this.boardStates = boardStates;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+    }
+
+    public List<Move> getMoves() {
+        return moves;
+    }
+
+    public void setMoves(List<Move> moves) {
+        this.moves = moves;
+    }
+
+    public int getNoOfMaps() {
+        return noOfMaps;
+    }
+
+    public void setNoOfMaps(int noOfMaps) {
+        this.noOfMaps = noOfMaps;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
     public static Builder builder(){
         return new Builder();
     }
@@ -107,7 +163,7 @@ public class Game {
             if(players.size() != board.getDimension() - 1)  throw new InvalidNumberOfPlayersException("There must be " +( board.getDimension() -1 )+ " players to start the game in board of size " + board.getDimension());
         }
 
-        private Game build(){
+        public Game build(){
             validate();
             return new Game(board,boardStates,currentPlayer,gameStatus,moves,noOfMaps,players);
         }
