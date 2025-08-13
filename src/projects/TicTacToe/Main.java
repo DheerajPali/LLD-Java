@@ -1,5 +1,6 @@
 package projects.TicTacToe;
 
+import projects.TicTacToe.controller.GameController;
 import projects.TicTacToe.model.Board;
 import projects.TicTacToe.model.Bot;
 import projects.TicTacToe.model.Player;
@@ -17,6 +18,8 @@ public class Main {
         int id = 1;
         Scanner sc = new Scanner(System.in);
         List<Player> players = new ArrayList<>();
+        GameController gameController = new GameController();
+
         System.out.println("Welcome to Tic-Tac-Toe!");
         System.out.println("Please enter the size of the board");
         int dimension = sc.nextInt();
@@ -25,13 +28,14 @@ public class Main {
         String botAnswer = sc.next();
 
         if(botAnswer.equals("Y")){
-            noOfPlayers--;
             Player botPlayer = new Bot(id++,"Kalu",'O', BotDifficultyLevel.EASY);
             players.add(botPlayer);
+            System.out.println("Bot name as " + botPlayer.getName() + " Added ");
         }
 
-        while(id < noOfPlayers){
+        while(id <= noOfPlayers){
             System.out.println("Please enter player name");
+            sc.nextLine(); //remember we're clearing buffer here, otherwise empty string will be here in playerName.
             String playerName = sc.nextLine();
             System.out.println("Please Enter symbol for player " + playerName);
             char symbol = sc.next().charAt(0);
@@ -41,5 +45,8 @@ public class Main {
         }
 
         Collections.shuffle(players);
+
+        Board board = new Board(dimension);
+        gameController.createGame(board,players);
     }
 }
