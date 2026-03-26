@@ -1,11 +1,12 @@
 package projects.TicTacToe;
 
 import projects.TicTacToe.controller.GameController;
-import projects.TicTacToe.model.Board;
-import projects.TicTacToe.model.Bot;
-import projects.TicTacToe.model.Player;
+import projects.TicTacToe.exception.GameDrawException;
+import projects.TicTacToe.model.*;
 import projects.TicTacToe.model.constants.BotDifficultyLevel;
+import projects.TicTacToe.model.constants.GameStatus;
 import projects.TicTacToe.model.constants.PlayerType;
+import projects.TicTacToe.service.winnerDrawCheckStrategy.WinnerCheckStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +48,35 @@ public class Main {
         Collections.shuffle(players);
 
         Board board = new Board(dimension);
-        gameController.createGame(board,players);
+        Game game = gameController.createGame(board,players);
+
+        int playerIndex = -1;
+        while(game.getGameStatus().equals(GameStatus.IN_PROGRESS)){
+
+            //first we'll show the current board
+            System.out.println("Current Board Status");
+            gameController.displayBoard(game);
+            playerIndex++;
+            playerIndex = playerIndex % players.size();
+
+            Move move = gameController.executeMove(game, players.get(playerIndex));
+            game.getMoves().add(move);
+            game.getBoardStates().add(new Board(game.getBoard()));
+            try{
+                Player player = gameController.checkWinner(game, move);
+                if(player != null){
+                    gameController.displayBoard(game);
+                    game.setGameStatus(GameStatus.FINISHED);
+                    System.out.println(player.getName() + " won the game!");
+                }
+            }
+            catch(GameDrawException ex){
+//                throw new GameDrawException("Game draw");
+//                System.out.println("Game draw");
+                game.setGameStatus(GameStatus.FINISHED);
+            }
+        }
+        System.out.println("Final state of board ");
+        gameController.displayBoard(game);
     }
 }

@@ -34,6 +34,10 @@ public class Game {
         return board;
     }
 
+    public void addNewBoardState(Board board){
+        this.boardStates.add(new Board(board));
+    }
+
     public void setBoard(Board board) {
         this.board = board;
     }

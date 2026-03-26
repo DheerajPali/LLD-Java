@@ -17,5 +17,4 @@ public class Registry <T>{
         return registry.get(name);
     }
 
-
 }
